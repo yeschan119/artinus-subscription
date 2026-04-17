@@ -2,9 +2,7 @@
 # Artinus Subscription Service (Node.js + TypeScript)
 
 ## Quick Start
-가장 먼저 실행할 수 있도록 시작 명령어를 상단에 배치했습니다.
-
-```bash
+```
 npm install
 npm run dev
 ````
