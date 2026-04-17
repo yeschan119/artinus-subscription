@@ -1,11 +1,10 @@
 ## Overview
 
-구독 서비스 백엔드 API 과제 구현 프로젝트입니다.
-회원의 구독/해지 상태를 관리하고, 외부 API 장애 상황을 고려한 트랜잭션 처리, LLM 기반 이력 요약, 로컬 즉시 실행 가능한 테스트 환경을 목표로 설계했습니다.
++ 구독 서비스 백엔드 API 과제 구현 프로젝트입니다.
++ 회원의 구독/해지 상태를 관리하고, 외부 API 장애 상황을 고려한 트랜잭션 처리, LLM 기반 이력 요약, 로컬 즉시 실행 가능한 테스트 환경을 목표로 설계했습니다.
 ````md
-# Artinus Subscription Service (Node.js + TypeScript)
-
-## Quick Start - Code를 다운 받은 후 실행 절차
+Artinus Subscription Service (Node.js + TypeScript)
+Quick Start - Code를 다운 받은 후 실행 절차
 npm install
 npm run dev
 ````
@@ -16,51 +15,56 @@ Server URL:
 http://localhost:3000
 ```
 ---
-# Test Examples
-+ health check
-```bash
+:::writing{variant=“standard” id=“48216”}
+
+<details>
+<summary><strong># Test Examples</strong></summary>
+
+Health Check
+
 curl -s http://localhost:3000/health
-```
-+ BASIC 가입
-```bash
+
+BASIC 가입
+
 curl -s -X POST http://localhost:3000/api/v1/subscriptions/subscribe \
   -H "Content-Type: application/json" \
   -d '{"phoneNumber":"01012345678","channelId":1,"targetStatus":"BASIC"}'
-```
-+ 회원 조회
-```bash
+
+회원 조회
+
 curl -s http://localhost:3000/api/v1/subscriptions/members/01012345678
-```
-+ PREMIUM 업그레이드
-```bash
+
+PREMIUM 업그레이드
+
 curl -s -X POST http://localhost:3000/api/v1/subscriptions/subscribe \
   -H "Content-Type: application/json" \
   -d '{"phoneNumber":"01012345678","channelId":1,"targetStatus":"PREMIUM"}'
-```
-+ PREMIUM -> BASIC 다운그레이드
-```bash
+
+PREMIUM -> BASIC 다운그레이드
+
 curl -s -X POST http://localhost:3000/api/v1/subscriptions/unsubscribe \
   -H "Content-Type: application/json" \
   -d '{"phoneNumber":"01012345678","channelId":1,"targetStatus":"BASIC"}'
-```
-+ BASIC -> NONE 해지
-```bash
+
+BASIC -> NONE 해지
+
 curl -s -X POST http://localhost:3000/api/v1/subscriptions/unsubscribe \
   -H "Content-Type: application/json" \
   -d '{"phoneNumber":"01012345678","channelId":1,"targetStatus":"NONE"}'
-```
-+ 잘못된 해지 채널
-```bash
+
+잘못된 해지 채널
+
 curl -s -X POST http://localhost:3000/api/v1/subscriptions/unsubscribe \
   -H "Content-Type: application/json" \
   -d '{"phoneNumber":"01012345678","channelId":3,"targetStatus":"NONE"}'
-```
-+ 잘못된 상태 변경 (subscribe로 NONE 요청)
-```bash
+
+잘못된 상태 변경 (subscribe로 NONE 요청)
+
 curl -s -X POST http://localhost:3000/api/v1/subscriptions/subscribe \
   -H "Content-Type: application/json" \
   -d '{"phoneNumber":"01012345678","channelId":1,"targetStatus":"NONE"}'
-```
+</details>
+:::
 
 ---
 
@@ -93,27 +97,21 @@ curl -s -X POST http://localhost:3000/api/v1/subscriptions/subscribe \
 
 # Tech 설명
 
-## 1. Node.js
-
-.NET / FastAPI 대비 Node.js 경험이 부족하여 일부러 Node.js로 구현하면서 경험을 쌓고 있습니다.
-특히 외부 API 호출, HTTP 요청 처리, JSON 응답 중심 구조에서 높은 생산성을 제공합니다.
+## 1. Framework(Node.js + Express)
+간결한 구조로 REST API를 빠르게 구성할 수 있어 과제 목적에 적합합니다.
+라우팅, 미들웨어, 에러 핸들링 구조가 명확합니다.
 
 ## 2. TypeScript
 
 도메인 규칙(상태 전이, 채널 타입, DTO 검증)을 명확하게 표현하기 위해 선택했습니다.
 런타임 오류보다 컴파일 단계에서 잘못된 상태값/타입을 사전에 차단할 수 있습니다.
 
-## 3. Express
-
-간결한 구조로 REST API를 빠르게 구성할 수 있어 과제 목적에 적합합니다.
-라우팅, 미들웨어, 에러 핸들링 구조가 명확합니다.
-
-## 4. Zod
+## 3. Zod
 
 입력값 검증을 코드와 타입 시스템에 동시에 연결하기 위해 사용했습니다.
 잘못된 phoneNumber / channelId / targetStatus 요청을 초기에 차단합니다.
 
-## 5. Separate LLM Service
+## 4. Separate LLM Service
 
 메인 서버에서 OpenAI Key 의존성을 제거하기 위해 LLM 기능을 별도 서버로 분리했습니다.
 Git clone 후 `.env` 없이도 메인 서버 실행이 가능합니다.
@@ -318,7 +316,6 @@ npm run dev
 실제 외부 API 실패는 일시 장애일 수 있기 때문입니다.
 
 예:
-
 * network jitter
 * temporary overload
 * timeout
@@ -333,7 +330,6 @@ npm run dev
 회원 조회 시 구독 변경 이력을 자연어로 요약합니다.
 
 예:
-
 * 채널 1에서 BASIC 가입
 * 채널 2에서 PREMIUM 업그레이드
 * 현재 상태는 PREMIUM
@@ -378,7 +374,7 @@ In-memory → DB 교체 용이
 
 ---
 
-# Future Improvements
+# Cloud Architecture
 
 * Replace memory store with RDBMS
 * Add unit / integration tests
