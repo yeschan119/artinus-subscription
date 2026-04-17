@@ -71,6 +71,7 @@ subscription-service/
     |
     |-- middlewares/
         |-- error.middleware.ts
+```
 ⸻
 
 Domain Design
