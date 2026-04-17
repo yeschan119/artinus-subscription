@@ -95,8 +95,8 @@ curl -s -X POST http://localhost:3000/api/v1/subscriptions/subscribe \
 **Tech 설명**
 
 **1. Framework (Node.js + Express)**  
-간결한 구조로 REST API를 빠르게 구성할 수 있어 과제 목적에 적합합니다.  
-라우팅, 미들웨어, 에러 핸들링 구조가 명확합니다.
+  + 간결한 구조로 REST API를 빠르게 구성할 수 있어 과제 목적에 적합합니다.
+  + 라우팅, 미들웨어, 에러 핸들링 구조가 명확합니다.
 
 ## 2. TypeScript
 
