@@ -1,8 +1,7 @@
 ````md
 # Artinus Subscription Service (Node.js + TypeScript)
 
-## Quick Start
-```
+## Quick Start - Code를 다운 받은 후 실행 절차
 npm install
 npm run dev
 ````
