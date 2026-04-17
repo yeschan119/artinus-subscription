@@ -16,8 +16,7 @@ Server URL:
 http://localhost:3000
 ```
 ---
-<details>
-<summary><strong># Tech 설명</strong></summary>
+# Test Examples
 + health check
 ```bash
 curl -s http://localhost:3000/health
@@ -62,7 +61,7 @@ curl -s -X POST http://localhost:3000/api/v1/subscriptions/subscribe \
   -H "Content-Type: application/json" \
   -d '{"phoneNumber":"01012345678","channelId":1,"targetStatus":"NONE"}'
 ```
-</details>
+
 ---
 
 ## Requirements Mapping
@@ -390,9 +389,3 @@ In-memory → DB 교체 용이
 * CI/CD pipeline
 
 ---
-
-# Conclusion
-
-이 프로젝트는 단순 CRUD가 아니라, 도메인 규칙 검증 / 장애 대응 / 운영 고려 / LLM 확장성을 포함한 실서비스형 과제 구현을 목표로 설계했습니다.
-
-```
