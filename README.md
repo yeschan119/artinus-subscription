@@ -374,7 +374,7 @@ In-memory → DB 교체 용이
 # Cloud Architecture
 
 <details>
-<summary><strong>제안 아키텍처</strong></summary>
+<summary><strong>2. 제안 아키텍처</strong></summary>
 ```text
 Client / Tester
    │
@@ -408,7 +408,6 @@ ECS Fargate Service (subscription-service, multi-task)
    └── External LLM Service
           └── Render Web Service
                  └── OpenAI API
-  ```
 
 이 구조는 메인 API와 LLM 의존성을 분리합니다.
 메인 서비스는 AWS에서 운영하고, LLM 요약은 별도 서비스(Render)에 위임해 OpenAI 키를 메인 서버에서 분리합니다.
@@ -538,5 +537,4 @@ to_status	변경 상태
 created_at	생성일
 
 </details>
-
----
+```
