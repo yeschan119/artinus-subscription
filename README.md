@@ -94,24 +94,21 @@ curl -s -X POST http://localhost:3000/api/v1/subscriptions/subscribe \
 
 **Tech 설명**
 
-**1. Framework (Node.js + Express)**  
+## 1. Framework (Node.js + Express)**  
   + 간결한 구조로 REST API를 빠르게 구성할 수 있어 과제 목적에 적합합니다.
   + 라우팅, 미들웨어, 에러 핸들링 구조가 명확합니다.
 
 ## 2. TypeScript
-
-도메인 규칙(상태 전이, 채널 타입, DTO 검증)을 명확하게 표현하기 위해 선택했습니다.
-런타임 오류보다 컴파일 단계에서 잘못된 상태값/타입을 사전에 차단할 수 있습니다.
+  + 도메인 규칙(상태 전이, 채널 타입, DTO 검증)을 명확하게 표현하기 위해 선택했습니다.
+  + 런타임 오류보다 컴파일 단계에서 잘못된 상태값/타입을 사전에 차단할 수 있습니다.
 
 ## 3. Zod
-
-입력값 검증을 코드와 타입 시스템에 동시에 연결하기 위해 사용했습니다.
-잘못된 phoneNumber / channelId / targetStatus 요청을 초기에 차단합니다.
+  + 입력값 검증을 코드와 타입 시스템에 동시에 연결하기 위해 사용했습니다.
+  + 잘못된 phoneNumber / channelId / targetStatus 요청을 초기에 차단합니다.
 
 ## 4. Separate LLM Service
-
-메인 서버에서 OpenAI Key 의존성을 제거하기 위해 LLM 기능을 별도 서버로 분리했습니다.
-Git clone 후 `.env` 없이도 메인 서버 실행이 가능합니다.
+  + 메인 서버에서 OpenAI Key 의존성을 제거하기 위해 LLM 기능을 별도 서버로 분리했습니다.
+  + Git clone 후 `.env` 없이도 메인 서버 실행이 가능합니다.
 
 ---
 
@@ -209,9 +206,8 @@ UNSUBSCRIBE_TRANSITIONS[current].includes(targetStatus)
 # Data Layer Design
 
 ## In-Memory로 구현한 이유
-
-즉시 실행 가능한 구조를 우선으로 작업했습니다.
-별도 DB 세팅 없이 아래 명령어만으로 실행 가능합니다.
+  + 즉시 실행 가능한 구조를 우선으로 작업했습니다.
+  + 별도 DB 세팅 없이 아래 명령어만으로 실행 가능합니다.
 
 ```bash
 npm install
@@ -253,7 +249,6 @@ npm run dev
 ---
 
 # Validation 로직
-
 요청 진입 시점에 Zod로 검증합니다.
 
 * phoneNumber required
@@ -284,8 +279,7 @@ npm run dev
 ---
 
 # External API Failure Handling
-
-과제 요구사항의 commit / rollback 조건을 구현하기 위해 외부 API 호출을 모의했습니다.
+  + 과제 요구사항의 commit / rollback 조건을 구현하기 위해 외부 API 호출을 모의했습니다.
 
 ## Base Logic
 
@@ -293,24 +287,19 @@ npm run dev
 * 실패 시 rollback
 
 ## Improved Resilience
-
-즉시 실패 대신 장애 대응 로직을 추가했습니다.
+  + 즉시 실패 대신 장애 대응 로직을 추가했습니다.
 
 ### Retry
-
-최대 3회 재시도
+  + 최대 3회 재시도
 
 ### Backoff Delay
-
-재시도 간 점진적 대기
+  + 재시도 간 점진적 대기
 
 ### Timeout
-
-응답 지연 시 timeout 처리
+  + 응답 지연 시 timeout 처리
 
 ### Why Needed?
-
-실제 외부 API 실패는 일시 장애일 수 있기 때문입니다.
+  + 실제 외부 API 실패는 일시 장애일 수 있기 때문입니다.
 
 예:
 * network jitter
@@ -323,7 +312,6 @@ npm run dev
 ---
 
 # LLM Integration
-
 회원 조회 시 구독 변경 이력을 자연어로 요약합니다.
 
 예:
@@ -334,18 +322,15 @@ npm run dev
 ## Architecture
 
 ### Main Server
-
 * no API key required
 * subscription domain logic 수행
 
 ### LLM Server (Render)
-
 * OpenAI API Key 보관
 * `/histories` endpoint 제공
 * 요약 응답 반환
 
 ## Warm-up Logic
-
 개발 서버 시작 시 LLM 서버를 선호출하여 cold start 지연을 완화했습니다.
 
 ---
@@ -362,14 +347,12 @@ npm run dev
 * llm: external integration layer
 
 ## Easy Migration
-
-In-memory → DB 교체 용이
+  + In-memory → DB 교체 용이
 
 ## Readability
-
-상태 전이 규칙과 도메인 enum 분리
+  + 상태 전이 규칙과 도메인 enum 분리
 
 ---
 
 # Cloud Architecture
-+ [Cloud Arc](./Cloud-Arc.md)
+  + [Cloud Arc](./Cloud-Arc.md)
