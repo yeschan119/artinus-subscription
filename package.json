@@ -1,0 +1,37 @@
+{
+  "name": "subscription-service",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+
+    "test:health": "curl -s http://localhost:3000/health | node src/scripts/pretty-json.js",
+    "test:subscribe-basic": "curl -s -X POST http://localhost:3000/api/v1/subscriptions/subscribe -H \"Content-Type: application/json\" -d '{\"phoneNumber\":\"01012345678\",\"channelId\":1,\"targetStatus\":\"BASIC\"}' | node src/scripts/pretty-json.js",
+    "test:get-member": "curl -s http://localhost:3000/api/v1/subscriptions/members/01012345678 | node src/scripts/pretty-json.js",
+    "test:subscribe-premium": "curl -s -X POST http://localhost:3000/api/v1/subscriptions/subscribe -H \"Content-Type: application/json\" -d '{\"phoneNumber\":\"01012345678\",\"channelId\":1,\"targetStatus\":\"PREMIUM\"}' | node src/scripts/pretty-json.js",
+    "test:unsubscribe-premium": "curl -s -X POST http://localhost:3000/api/v1/subscriptions/unsubscribe -H \"Content-Type: application/json\" -d '{\"phoneNumber\":\"01012345678\",\"channelId\":1,\"targetStatus\":\"BASIC\"}' | node src/scripts/pretty-json.js",
+    "test:unsubscribe-basic": "curl -s -X POST http://localhost:3000/api/v1/subscriptions/unsubscribe -H \"Content-Type: application/json\" -d '{\"phoneNumber\":\"01012345678\",\"channelId\":1,\"targetStatus\":\"NONE\"}' | node src/scripts/pretty-json.js",
+    "test:unsubscribe-invalid-channel": "curl -s -X POST http://localhost:3000/api/v1/subscriptions/unsubscribe -H \"Content-Type: application/json\" -d '{\"phoneNumber\":\"01012345678\",\"channelId\":3,\"targetStatus\":\"NONE\"}' | node src/scripts/pretty-json.js",
+    "test:subscribe-invalid-transition": "curl -s -X POST http://localhost:3000/api/v1/subscriptions/subscribe -H \"Content-Type: application/json\" -d '{\"phoneNumber\":\"01012345678\",\"channelId\":1,\"targetStatus\":\"NONE\"}' | node src/scripts/pretty-json.js",
+    "test:final-member": "curl -s http://localhost:3000/api/v1/subscriptions/members/01012345678 | node scripts/pretty-json.js"
+  },
+  "dependencies": {
+    "axios": "^1.8.4",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "http-errors": "^2.0.0",
+    "openai": "^6.34.0",
+    "pino-http": "^10.3.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.1",
+    "@types/node": "^22.19.17",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
+    "typescript": "^5.8.2"
+  }
+}
