@@ -57,8 +57,6 @@ ECS Fargate Service (subscription-service, multi-task)
 * LLM 장애가 메인 API 배포/스케일 전략과 분리됨
 * 나중에 다른 모델 또는 다른 요약 서비스로 교체하기 쉬움
 
-⸻
-
 ## 데이터 모델 설계
 
 운영 환경에서는 최소 아래 테이블을 둡니다.
