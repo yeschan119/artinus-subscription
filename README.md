@@ -13,54 +13,46 @@ http://localhost:3000
 ```
 ---
 # Test Examples
-
++ health check
 ```bash
-1. health check
 curl -s http://localhost:3000/health
 ```
-
++ BASIC 가입
 ```bash
-2. BASIC 가입
 curl -s -X POST http://localhost:3000/api/v1/subscriptions/subscribe \
   -H "Content-Type: application/json" \
   -d '{"phoneNumber":"01012345678","channelId":1,"targetStatus":"BASIC"}'
 ```
-
++ 회원 조회
 ```bash
-3. 회원 조회
 curl -s http://localhost:3000/api/v1/subscriptions/members/01012345678
 ```
-
++ PREMIUM 업그레이드
 ```bash
-4. PREMIUM 업그레이드
 curl -s -X POST http://localhost:3000/api/v1/subscriptions/subscribe \
   -H "Content-Type: application/json" \
   -d '{"phoneNumber":"01012345678","channelId":1,"targetStatus":"PREMIUM"}'
 ```
-
++ PREMIUM -> BASIC 다운그레이드
 ```bash
-5. PREMIUM -> BASIC 다운그레이드
 curl -s -X POST http://localhost:3000/api/v1/subscriptions/unsubscribe \
   -H "Content-Type: application/json" \
   -d '{"phoneNumber":"01012345678","channelId":1,"targetStatus":"BASIC"}'
 ```
-
++ BASIC -> NONE 해지
 ```bash
-6. BASIC -> NONE 해지
 curl -s -X POST http://localhost:3000/api/v1/subscriptions/unsubscribe \
   -H "Content-Type: application/json" \
   -d '{"phoneNumber":"01012345678","channelId":1,"targetStatus":"NONE"}'
 ```
-
++ 잘못된 해지 채널
 ```bash
-7. 잘못된 해지 채널
 curl -s -X POST http://localhost:3000/api/v1/subscriptions/unsubscribe \
   -H "Content-Type: application/json" \
   -d '{"phoneNumber":"01012345678","channelId":3,"targetStatus":"NONE"}'
 ```
-
++ 잘못된 상태 변경 (subscribe로 NONE 요청)
 ```bash
-8. 잘못된 상태 변경 (subscribe로 NONE 요청)
 curl -s -X POST http://localhost:3000/api/v1/subscriptions/subscribe \
   -H "Content-Type: application/json" \
   -d '{"phoneNumber":"01012345678","channelId":1,"targetStatus":"NONE"}'
