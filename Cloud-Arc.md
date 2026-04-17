@@ -1,7 +1,7 @@
 # Cloud Architecture
 ## Diagram
 ```
-Client / Tester
+Client
    │
    ▼
 Route 53
