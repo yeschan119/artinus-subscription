@@ -246,7 +246,8 @@ export class SubscriptionService {
 
     return {
       member,
-      histories: summary
+      history: memberHistories,
+      summary: summary
         .split("\n")
         .map(line => line.trim())
         .filter(Boolean)
