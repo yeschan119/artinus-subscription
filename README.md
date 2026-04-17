@@ -11,7 +11,60 @@ Server URL:
 ```text
 http://localhost:3000
 ```
+---
+# Test Examples
 
+```bash
+1. health check
+curl -s http://localhost:3000/health
+```
+
+```bash
+2. BASIC 가입
+curl -s -X POST http://localhost:3000/api/v1/subscriptions/subscribe \
+  -H "Content-Type: application/json" \
+  -d '{"phoneNumber":"01012345678","channelId":1,"targetStatus":"BASIC"}'
+```
+
+```bash
+3. 회원 조회
+curl -s http://localhost:3000/api/v1/subscriptions/members/01012345678
+```
+
+```bash
+4. PREMIUM 업그레이드
+curl -s -X POST http://localhost:3000/api/v1/subscriptions/subscribe \
+  -H "Content-Type: application/json" \
+  -d '{"phoneNumber":"01012345678","channelId":1,"targetStatus":"PREMIUM"}'
+```
+
+```bash
+5. PREMIUM -> BASIC 다운그레이드
+curl -s -X POST http://localhost:3000/api/v1/subscriptions/unsubscribe \
+  -H "Content-Type: application/json" \
+  -d '{"phoneNumber":"01012345678","channelId":1,"targetStatus":"BASIC"}'
+```
+
+```bash
+6. BASIC -> NONE 해지
+curl -s -X POST http://localhost:3000/api/v1/subscriptions/unsubscribe \
+  -H "Content-Type: application/json" \
+  -d '{"phoneNumber":"01012345678","channelId":1,"targetStatus":"NONE"}'
+```
+
+```bash
+7. 잘못된 해지 채널
+curl -s -X POST http://localhost:3000/api/v1/subscriptions/unsubscribe \
+  -H "Content-Type: application/json" \
+  -d '{"phoneNumber":"01012345678","channelId":3,"targetStatus":"NONE"}'
+```
+
+```bash
+8. 잘못된 상태 변경 (subscribe로 NONE 요청)
+curl -s -X POST http://localhost:3000/api/v1/subscriptions/subscribe \
+  -H "Content-Type: application/json" \
+  -d '{"phoneNumber":"01012345678","channelId":1,"targetStatus":"NONE"}'
+```
 ---
 
 ## Overview
@@ -30,7 +83,6 @@ http://localhost:3000
 * 장애 대응 로직 (retry / timeout / backoff)
 * 회원 조회 + 구독 이력 제공
 * LLM 기반 이력 자연어 요약
-* DB 없이 즉시 실행 가능한 구조
 
 ---
 
@@ -49,11 +101,11 @@ http://localhost:3000
 
 ---
 
-# Why These Technologies
+# Tech 설명
 
 ## 1. Node.js
 
-.NET / FastAPI 대비 Node.js 경험을 보강하기 위해 선택했습니다.
+.NET / FastAPI 대비 Node.js 경험이 부족하여 일부러 Node.js로 구현하면서 경험을 쌓고 있습니다.
 특히 외부 API 호출, HTTP 요청 처리, JSON 응답 중심 구조에서 높은 생산성을 제공합니다.
 
 ## 2. TypeScript
@@ -73,7 +125,7 @@ http://localhost:3000
 
 ## 5. Separate LLM Service
 
-메인 서버에서 OpenAI Key 의존성을 제거하기 위해 LLM 기능을 별도 Render 서비스로 분리했습니다.
+메인 서버에서 OpenAI Key 의존성을 제거하기 위해 LLM 기능을 별도 서버로 분리했습니다.
 Git clone 후 `.env` 없이도 메인 서버 실행이 가능합니다.
 
 ---
@@ -333,20 +385,6 @@ In-memory → DB 교체 용이
 ## Readability
 
 상태 전이 규칙과 도메인 enum 분리
-
----
-
-# Test Examples
-
-```bash
-curl -X POST http://localhost:3000/api/v1/subscriptions/subscribe \
-  -H "Content-Type: application/json" \
-  -d '{"phoneNumber":"01012345678","channelId":1,"targetStatus":"BASIC"}'
-```
-
-```bash
-curl http://localhost:3000/api/v1/subscriptions/members/01012345678
-```
 
 ---
 
