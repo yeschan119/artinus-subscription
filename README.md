@@ -1,7 +1,5 @@
 # Architecture
 
-## Project Structure
-
 ```text
 subscription-service/
 |
