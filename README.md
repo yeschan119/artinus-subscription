@@ -63,7 +63,7 @@ curl -s -X POST http://localhost:3000/api/v1/subscriptions/subscribe \
   -H "Content-Type: application/json" \
   -d '{"phoneNumber":"01012345678","channelId":1,"targetStatus":"NONE"}'
 ```
-
+</details>
 ---
 
 ## Requirements Mapping
