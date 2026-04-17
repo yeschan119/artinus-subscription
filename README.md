@@ -16,8 +16,8 @@ Server URL:
 http://localhost:3000
 ```
 ---
-<detail>
-# Test Examples
+<details>
+<summary><strong>Test</strong></summary>
 + health check
 ```bash
 curl -s http://localhost:3000/health
@@ -62,7 +62,7 @@ curl -s -X POST http://localhost:3000/api/v1/subscriptions/subscribe \
   -H "Content-Type: application/json" \
   -d '{"phoneNumber":"01012345678","channelId":1,"targetStatus":"NONE"}'
 ```
-</detail>
+</details>
 ---
 
 ## Requirements Mapping
