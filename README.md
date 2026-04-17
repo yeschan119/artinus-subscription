@@ -2,68 +2,89 @@
 
 구독 서비스 백엔드 API 과제 구현 프로젝트입니다.
 회원의 구독/해지 상태를 관리하고, 외부 API 장애 상황을 고려한 트랜잭션 처리, LLM 기반 이력 요약, 로컬 즉시 실행 가능한 테스트 환경을 목표로 설계했습니다.
-````md
-# Artinus Subscription Service (Node.js + TypeScript)
+
+<details>
+<summary><strong># Artinus Subscription Service (Node.js + TypeScript)</strong></summary>
 
 ## Quick Start - Code를 다운 받은 후 실행 절차
+
 npm install
 npm run dev
-````
 
 Server URL:
 
 ```text
 http://localhost:3000
 ```
+
 ---
+
+</details>
+
 <details>
-<summary><strong>Test</strong></summary>
-+ health check
+<summary><strong># Test Examples</strong></summary>
+
+* health check
+
 ```bash
 curl -s http://localhost:3000/health
 ```
-+ BASIC 가입
+
+* BASIC 가입
+
 ```bash
 curl -s -X POST http://localhost:3000/api/v1/subscriptions/subscribe \
   -H "Content-Type: application/json" \
   -d '{"phoneNumber":"01012345678","channelId":1,"targetStatus":"BASIC"}'
 ```
-+ 회원 조회
+
+* 회원 조회
+
 ```bash
 curl -s http://localhost:3000/api/v1/subscriptions/members/01012345678
 ```
-+ PREMIUM 업그레이드
+
+* PREMIUM 업그레이드
+
 ```bash
 curl -s -X POST http://localhost:3000/api/v1/subscriptions/subscribe \
   -H "Content-Type: application/json" \
   -d '{"phoneNumber":"01012345678","channelId":1,"targetStatus":"PREMIUM"}'
 ```
-+ PREMIUM -> BASIC 다운그레이드
+
+* PREMIUM -> BASIC 다운그레이드
+
 ```bash
 curl -s -X POST http://localhost:3000/api/v1/subscriptions/unsubscribe \
   -H "Content-Type: application/json" \
   -d '{"phoneNumber":"01012345678","channelId":1,"targetStatus":"BASIC"}'
 ```
-+ BASIC -> NONE 해지
+
+* BASIC -> NONE 해지
+
 ```bash
 curl -s -X POST http://localhost:3000/api/v1/subscriptions/unsubscribe \
   -H "Content-Type: application/json" \
   -d '{"phoneNumber":"01012345678","channelId":1,"targetStatus":"NONE"}'
 ```
-+ 잘못된 해지 채널
+
+* 잘못된 해지 채널
+
 ```bash
 curl -s -X POST http://localhost:3000/api/v1/subscriptions/unsubscribe \
   -H "Content-Type: application/json" \
   -d '{"phoneNumber":"01012345678","channelId":3,"targetStatus":"NONE"}'
 ```
-+ 잘못된 상태 변경 (subscribe로 NONE 요청)
+
+* 잘못된 상태 변경 (subscribe로 NONE 요청)
+
 ```bash
 curl -s -X POST http://localhost:3000/api/v1/subscriptions/subscribe \
   -H "Content-Type: application/json" \
   -d '{"phoneNumber":"01012345678","channelId":1,"targetStatus":"NONE"}'
 ```
+
 </details>
----
 
 ## Requirements Mapping
 
@@ -92,7 +113,8 @@ curl -s -X POST http://localhost:3000/api/v1/subscriptions/subscribe \
 
 ---
 
-# Tech 설명
+<details>
+<summary><strong># Tech 설명</strong></summary>
 
 ## 1. Node.js
 
@@ -119,9 +141,10 @@ curl -s -X POST http://localhost:3000/api/v1/subscriptions/subscribe \
 메인 서버에서 OpenAI Key 의존성을 제거하기 위해 LLM 기능을 별도 서버로 분리했습니다.
 Git clone 후 `.env` 없이도 메인 서버 실행이 가능합니다.
 
----
+</details>
 
-# Project Structure
+<details>
+<summary><strong># Project Structure</strong></summary>
 
 ```text
 subscription-service/
@@ -156,9 +179,10 @@ subscription-service/
         └── history-llm.ts       # External LLM Connector
 ```
 
----
+</details>
 
-# Domain Design
+<details>
+<summary><strong># Domain Design</strong></summary>
 
 ## Subscription Status
 
@@ -176,9 +200,10 @@ subscription-service/
 | SUBSCRIBE_ONLY   | O         | X           |
 | UNSUBSCRIBE_ONLY | X         | O           |
 
----
+</details>
 
-# State Transition Rules
+<details>
+<summary><strong># State Transition Rules</strong></summary>
 
 ## Subscribe
 
@@ -210,9 +235,10 @@ UNSUBSCRIBE_TRANSITIONS[current].includes(targetStatus)
 * 테스트 쉬움
 * 비즈니스 로직 단순화
 
----
+</details>
 
-# Data Layer Design
+<details>
+<summary><strong># Data Layer Design</strong></summary>
 
 ## Why In-Memory?
 
@@ -232,21 +258,14 @@ npm run dev
 
 향후 MySQL / PostgreSQL / Prisma로 교체 가능하도록 서비스 계층과 분리했습니다.
 
----
+</details>
 
-# API Design
+<details>
+<summary><strong># API Design</strong></summary>
 
 ## Subscribe
 
 `POST /api/v1/subscriptions/subscribe`
-
-```json
-{
-  "phoneNumber": "01012345678",
-  "channelId": 1,
-  "targetStatus": "BASIC"
-}
-```
 
 ## Unsubscribe
 
@@ -256,9 +275,10 @@ npm run dev
 
 `GET /api/v1/subscriptions/members/:phoneNumber`
 
----
+</details>
 
-# Validation Strategy
+<details>
+<summary><strong># Validation Strategy</strong></summary>
 
 요청 진입 시점에 Zod로 검증합니다.
 
@@ -266,120 +286,38 @@ npm run dev
 * channelId number
 * targetStatus enum only
 
-잘못된 요청은 비즈니스 로직까지 진입하지 않습니다.
+</details>
 
----
-
-# Error Handling
+<details>
+<summary><strong># Error Handling</strong></summary>
 
 전역 에러 미들웨어를 적용했습니다.
 
-```json
-{
-  "success": false,
-  "message": "회원 없음"
-}
-```
+</details>
 
-## Why?
+<details>
+<summary><strong># External API Failure Handling</strong></summary>
 
-* 응답 포맷 일관성 유지
-* 유지보수 용이
-* 라우터 코드 단순화
+Retry / Backoff / Timeout 적용.
 
----
+</details>
 
-# External API Failure Handling
+<details>
+<summary><strong># LLM Integration</strong></summary>
 
-과제 요구사항의 commit / rollback 조건을 구현하기 위해 외부 API 호출을 모의했습니다.
+별도 Render 서버를 통한 이력 요약 기능 구현.
 
-## Base Logic
+</details>
 
-* 성공 시 commit
-* 실패 시 rollback
+<details>
+<summary><strong># Performance / Maintainability Considerations</strong></summary>
 
-## Improved Resilience
+Layer Separation / Easy Migration / Readability
 
-즉시 실패 대신 장애 대응 로직을 추가했습니다.
+</details>
 
-### Retry
-
-최대 3회 재시도
-
-### Backoff Delay
-
-재시도 간 점진적 대기
-
-### Timeout
-
-응답 지연 시 timeout 처리
-
-## Why Needed?
-
-실제 외부 API 실패는 일시 장애일 수 있기 때문입니다.
-
-예:
-
-* network jitter
-* temporary overload
-* timeout
-* transient failure
-
-즉시 실패보다 재시도가 현실적입니다.
-
----
-
-# LLM Integration
-
-회원 조회 시 구독 변경 이력을 자연어로 요약합니다.
-
-예:
-
-* 채널 1에서 BASIC 가입
-* 채널 2에서 PREMIUM 업그레이드
-* 현재 상태는 PREMIUM
-
-## Architecture
-
-### Main Server
-
-* no API key required
-* subscription domain logic 수행
-
-### LLM Server (Render)
-
-* OpenAI API Key 보관
-* `/histories` endpoint 제공
-* 요약 응답 반환
-
-## Warm-up Logic
-
-개발 서버 시작 시 LLM 서버를 선호출하여 cold start 지연을 완화했습니다.
-
----
-
-# Performance / Maintainability Considerations
-
-## Layer Separation
-
-* routes: HTTP layer
-* services: business logic
-* data: storage
-* constants: rules
-* middleware: cross-cutting concerns
-* llm: external integration layer
-
-## Easy Migration
-
-In-memory → DB 교체 용이
-
-## Readability
-
-상태 전이 규칙과 도메인 enum 분리
-
----
-
-# Future Improvements
+<details>
+<summary><strong># Future Improvements</strong></summary>
 
 * Replace memory store with RDBMS
 * Add unit / integration tests
@@ -389,11 +327,4 @@ In-memory → DB 교체 용이
 * Dockerize deployment
 * CI/CD pipeline
 
----
-
-# Conclusion
-
-이 프로젝트는 단순 CRUD가 아니라, 도메인 규칙 검증 / 장애 대응 / 운영 고려 / LLM 확장성을 포함한 실서비스형 과제 구현을 목표로 설계했습니다.
-
-```
-```
+</details>
