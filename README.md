@@ -15,7 +15,6 @@ Server URL:
 http://localhost:3000
 ```
 ---
-:::writing{variant=“standard” id=“48216”}
 
 <details>
 <summary><strong># Test Examples</strong></summary>
@@ -64,7 +63,6 @@ curl -s -X POST http://localhost:3000/api/v1/subscriptions/subscribe \
   -H "Content-Type: application/json" \
   -d '{"phoneNumber":"01012345678","channelId":1,"targetStatus":"NONE"}'
 </details>
-:::
 
 ---
 
