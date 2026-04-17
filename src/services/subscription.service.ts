@@ -242,9 +242,14 @@ export class SubscriptionService {
       h => h.phoneNumber === phoneNumber
     );
 
+    const summary = await historyLLM.getHistoryLLM(memberHistories);
+
     return {
       member,
-      histories: await historyLLM.getHistoryLLM(memberHistories)
+      histories: summary
+        .split("\n")
+        .map(line => line.trim())
+        .filter(Boolean)
     };
   }
 }

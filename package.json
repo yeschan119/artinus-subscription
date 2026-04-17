@@ -8,15 +8,15 @@
     "build": "tsc",
     "start": "node dist/server.js",
 
-    "test:health": "curl -s http://localhost:3000/health | node src/scripts/pretty-json.js",
-    "test:subscribe-basic": "curl -s -X POST http://localhost:3000/api/v1/subscriptions/subscribe -H \"Content-Type: application/json\" -d '{\"phoneNumber\":\"01012345678\",\"channelId\":1,\"targetStatus\":\"BASIC\"}' | node src/scripts/pretty-json.js",
-    "test:get-member": "curl -s http://localhost:3000/api/v1/subscriptions/members/01012345678 | node src/scripts/pretty-json.js",
-    "test:subscribe-premium": "curl -s -X POST http://localhost:3000/api/v1/subscriptions/subscribe -H \"Content-Type: application/json\" -d '{\"phoneNumber\":\"01012345678\",\"channelId\":1,\"targetStatus\":\"PREMIUM\"}' | node src/scripts/pretty-json.js",
-    "test:unsubscribe-premium": "curl -s -X POST http://localhost:3000/api/v1/subscriptions/unsubscribe -H \"Content-Type: application/json\" -d '{\"phoneNumber\":\"01012345678\",\"channelId\":1,\"targetStatus\":\"BASIC\"}' | node src/scripts/pretty-json.js",
-    "test:unsubscribe-basic": "curl -s -X POST http://localhost:3000/api/v1/subscriptions/unsubscribe -H \"Content-Type: application/json\" -d '{\"phoneNumber\":\"01012345678\",\"channelId\":1,\"targetStatus\":\"NONE\"}' | node src/scripts/pretty-json.js",
-    "test:unsubscribe-invalid-channel": "curl -s -X POST http://localhost:3000/api/v1/subscriptions/unsubscribe -H \"Content-Type: application/json\" -d '{\"phoneNumber\":\"01012345678\",\"channelId\":3,\"targetStatus\":\"NONE\"}' | node src/scripts/pretty-json.js",
-    "test:subscribe-invalid-transition": "curl -s -X POST http://localhost:3000/api/v1/subscriptions/subscribe -H \"Content-Type: application/json\" -d '{\"phoneNumber\":\"01012345678\",\"channelId\":1,\"targetStatus\":\"NONE\"}' | node src/scripts/pretty-json.js",
-    "test:final-member": "curl -s http://localhost:3000/api/v1/subscriptions/members/01012345678 | node scripts/pretty-json.js"
+    "test:health": "curl -s http://localhost:3000/health; echo",
+    "test:subscribe-basic": "curl -s -X POST http://localhost:3000/api/v1/subscriptions/subscribe -H \"Content-Type: application/json\" -d '{\"phoneNumber\":\"01012345678\",\"channelId\":1,\"targetStatus\":\"BASIC\"}'; echo",
+    "test:get-member": "curl -s http://localhost:3000/api/v1/subscriptions/members/01012345678 | node src/scripts/pretty-json.js; echo",
+    "test:subscribe-premium": "curl -s -X POST http://localhost:3000/api/v1/subscriptions/subscribe -H \"Content-Type: application/json\" -d '{\"phoneNumber\":\"01012345678\",\"channelId\":1,\"targetStatus\":\"PREMIUM\"}'; echo",
+    "test:unsubscribe-premium": "curl -s -X POST http://localhost:3000/api/v1/subscriptions/unsubscribe -H \"Content-Type: application/json\" -d '{\"phoneNumber\":\"01012345678\",\"channelId\":1,\"targetStatus\":\"BASIC\"}'; echo",
+    "test:unsubscribe-basic": "curl -s -X POST http://localhost:3000/api/v1/subscriptions/unsubscribe -H \"Content-Type: application/json\" -d '{\"phoneNumber\":\"01012345678\",\"channelId\":1,\"targetStatus\":\"NONE\"}'; echo",
+    "test:unsubscribe-invalid-channel": "curl -s -X POST http://localhost:3000/api/v1/subscriptions/unsubscribe -H \"Content-Type: application/json\" -d '{\"phoneNumber\":\"01012345678\",\"channelId\":3,\"targetStatus\":\"NONE\"}'; echo",
+    "test:subscribe-invalid-transition": "curl -s -X POST http://localhost:3000/api/v1/subscriptions/subscribe -H \"Content-Type: application/json\" -d '{\"phoneNumber\":\"01012345678\",\"channelId\":1,\"targetStatus\":\"NONE\"}'; echo",
+    "test:final-member": "curl -s http://localhost:3000/api/v1/subscriptions/members/01012345678; echo"
   },
   "dependencies": {
     "axios": "^1.8.4",
