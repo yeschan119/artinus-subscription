@@ -8,27 +8,27 @@ subscription-service/
 |-- package.json
 |-- tsconfig.json
 |-- .env
-`-- src/
+|-- src/
     |
     |-- server.ts
     |-- app.ts
     |
     |-- constants/
-    |   `-- subscription.ts
+    |   |-- subscription.ts
     |
     |-- data/
-    |   `-- memory.ts
+    |   |-- memory.ts
     |
     |-- services/
     |   |-- csrng.service.ts
-    |   `-- subscription.service.ts
+    |   |-- subscription.service.ts
     |
     |-- routes/
-    |   `-- subscription.routes.ts
+    |   |-- subscription.routes.ts
     |
     |-- validators/
-    |   `-- subscription.validator.ts
+    |   |-- subscription.validator.ts
     |
-    `-- middlewares/
-        `-- error.middleware.ts
+    |-- middlewares/
+        |-- error.middleware.ts
 ```
