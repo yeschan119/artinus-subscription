@@ -27,11 +27,7 @@ http://localhost:3000
 ---
 
 <details>
-<summary>
-  <span style="font-size:24px; font-weight:700; color:#58a6ff;">
-    🧪 Test Examples
-  </span>
-</summary>
+<summary><H2>🪴 Test Examples</H2></summary>
 
 + health check
 ```bash
