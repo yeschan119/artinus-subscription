@@ -37,7 +37,7 @@ router.post("/unsubscribe", async (request, response, next) => {
 
 router.get("/members/:phoneNumber", async (request, response, next) => {
   try {
-    const result = await service.getMember(request.params.phoneNumber);
+    const result = await service.getMemberInfo(request.params.phoneNumber);
     response.json({ success: true, data: result });
   } catch (err) {
     next(err);

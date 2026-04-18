@@ -29,6 +29,7 @@ export class SubscriptionService {
 
   async subscribe({ phoneNumber, channelId, targetStatus }: SubscribeDto) {
     const channel = channels.find(c => c.id === channelId);
+    let current = SubscriptionStatus.NONE;
 
     if (!channel) throw createHttpError(404, "채널 없음");
 
@@ -42,21 +43,24 @@ export class SubscriptionService {
     }
 
     let member = getMember(phoneNumber);
-    if (!member) member = createMember(phoneNumber);
+    if (member) {
+      current = member.subscriptionStatus;
+      const allowedStatuses = SUBSCRIBE_TRANSITIONS[current];
 
-    const current = member.subscriptionStatus;
-    const allowedStatuses = SUBSCRIBE_TRANSITIONS[current];
-
-    if (!allowedStatuses.includes(targetStatus)) {
-      throw createHttpError(
-        400,
-        this.createInvalidTransitionMessage(
-          "subscribe",
-          current,
-          targetStatus,
-          allowedStatuses
-        )
-      );
+      if (!allowedStatuses.includes(targetStatus)) {
+        throw createHttpError(
+          400,
+          this.createInvalidTransitionMessage(
+            "subscribe",
+            current,
+            targetStatus,
+            allowedStatuses
+          )
+        );
+      }
+    } else {
+      member = createMember(phoneNumber);
+      current = member.subscriptionStatus;
     }
 
     const random = await this.callExternalApiWithRetry();
@@ -234,7 +238,7 @@ export class SubscriptionService {
     return 0;
   }
 
-  async getMember(phoneNumber: string) {
+  async getMemberInfo(phoneNumber: string) {
     const member = getMember(phoneNumber);
     if (!member) throw createHttpError(404, "회원 없음");
 

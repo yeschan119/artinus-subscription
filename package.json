@@ -7,7 +7,6 @@
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-
     "test:health": "curl -s http://localhost:3000/health; echo",
     "test:subscribe-basic": "curl -s -X POST http://localhost:3000/api/v1/subscriptions/subscribe -H \"Content-Type: application/json\" -d '{\"phoneNumber\":\"01012345678\",\"channelId\":1,\"targetStatus\":\"BASIC\"}'; echo",
     "test:get-member": "curl -s http://localhost:3000/api/v1/subscriptions/members/01012345678 | node src/scripts/pretty-json.js; echo",
@@ -30,6 +29,7 @@
   "devDependencies": {
     "@types/express": "^5.0.1",
     "@types/node": "^22.19.17",
+    "json": "^11.0.0",
     "ts-node": "^10.9.2",
     "tsx": "^4.21.0",
     "typescript": "^5.8.2"
