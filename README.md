@@ -2,7 +2,8 @@
 
 + 구독 서비스 백엔드 API 과제 구현 프로젝트입니다.
 + 회원의 구독/해지 상태를 관리하고, 외부 API 장애 상황을 고려한 트랜잭션 처리, LLM 기반 이력 요약, 로컬 즉시 실행 가능한 테스트 환경을 목표로 설계했습니다.
-+ 환경 설정 - Code를 다운 받은 후 실행
+
+## 환경 설정 - Code를 다운 받은 후 실행
 
 ```bash
 Artinus Subscription Service (Node.js + TypeScript)
