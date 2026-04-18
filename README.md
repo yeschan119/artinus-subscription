@@ -350,4 +350,4 @@ UNSUBSCRIBE_TRANSITIONS[current].includes(targetStatus)
 ---
 
 # Cloud Architecture
-  + [클라우드 환경 배포](./Cloud-Arc.md)
+  + [클라우드 인프라 설계](./Cloud-Arc.md)
