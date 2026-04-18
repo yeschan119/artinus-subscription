@@ -104,7 +104,7 @@ curl -s -X POST http://localhost:3000/api/v1/subscriptions/subscribe \
 
 **Tech 설명**
 
-## 1. Framework (Node.js + Express)**  
+## 1. Framework (Node.js + Express)
   + 간결한 구조로 REST API를 빠르게 구성할 수 있어 과제 목적에 적합합니다.
   + 라우팅, 미들웨어, 에러 핸들링 구조가 명확합니다.
 
@@ -215,29 +215,21 @@ UNSUBSCRIBE_TRANSITIONS[current].includes(targetStatus)
 
 # Data Layer Design
 
-## In-Memory로 구현한 이유
-  + 즉시 실행 가능한 구조를 우선으로 작업했습니다.
-  + 별도 DB 세팅 없이 아래 명령어만으로 실행 가능합니다.
-
-```bash
-npm install
-npm run dev
-```
+## In-Memory로 구현
+  + test용으로 즉시 실행 가능한 구조를 우선 작업했습니다.
+  + 향후 MySQL / PostgreSQL / Prisma로 교체 가능하도록 서비스 계층과 분리했습니다.
+  + 클라우드에서 RDS로 구현 예정 - 클라우드 구조 참고
 
 ## Stored Data
-
 * members
 * channels
 * histories
-
-향후 MySQL / PostgreSQL / Prisma로 교체 가능하도록 서비스 계층과 분리했습니다.
 
 ---
 
 # API Design
 
 ## Subscribe
-
 `POST /api/v1/subscriptions/subscribe`
 
 ```json
@@ -249,11 +241,9 @@ npm run dev
 ```
 
 ## Unsubscribe
-
 `POST /api/v1/subscriptions/unsubscribe`
 
 ## Get Member
-
 `GET /api/v1/subscriptions/members/:phoneNumber`
 
 ---
@@ -266,11 +256,9 @@ npm run dev
 * targetStatus enum only
 
 잘못된 요청은 비즈니스 로직까지 진입하지 않습니다.
-
 ---
 
 # Error Handling
-
 전역 에러 미들웨어를 적용했습니다.
 
 ```json
@@ -281,7 +269,6 @@ npm run dev
 ```
 
 ## Why?
-
 * 응답 포맷 일관성 유지
 * 유지보수 용이
 * 라우터 코드 단순화
@@ -292,7 +279,6 @@ npm run dev
   + 과제 요구사항의 commit / rollback 조건을 구현하기 위해 외부 API 호출을 모의했습니다.
 
 ## Base Logic
-
 * 성공 시 commit
 * 실패 시 rollback
 
@@ -348,7 +334,6 @@ npm run dev
 # Performance / Maintainability Considerations
 
 ## Layer Separation
-
 * routes: HTTP layer
 * services: business logic
 * data: storage
