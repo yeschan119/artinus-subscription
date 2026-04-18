@@ -23,8 +23,6 @@ npm install
 npm run dev
 
 Server URL:
-
-```text
 http://localhost:3000
 ```
 ---
