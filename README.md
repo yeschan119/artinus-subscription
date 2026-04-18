@@ -27,41 +27,41 @@ curl -s http://localhost:3000/health
 ```bash
 curl -s -X POST http://localhost:3000/api/v1/subscriptions/subscribe \
   -H "Content-Type: application/json" \
-  -d '{"phoneNumber":"01012345678","channelId":1,"targetStatus":"BASIC"}'
+  -d '{"phoneNumber":"01012345678","channelId":1,"targetStatus":"BASIC"}' | npx json
 ```
 + 회원 조회
 ```bash
-curl -s http://localhost:3000/api/v1/subscriptions/members/01012345678
+curl -s http://localhost:3000/api/v1/subscriptions/members/01012345678 | npx json
 ```
 + PREMIUM 업그레이드
 ```bash
 curl -s -X POST http://localhost:3000/api/v1/subscriptions/subscribe \
   -H "Content-Type: application/json" \
-  -d '{"phoneNumber":"01012345678","channelId":1,"targetStatus":"PREMIUM"}'
+  -d '{"phoneNumber":"01012345678","channelId":1,"targetStatus":"PREMIUM"}' | npx json
 ```
 + PREMIUM -> BASIC 다운그레이드
 ```bash
 curl -s -X POST http://localhost:3000/api/v1/subscriptions/unsubscribe \
   -H "Content-Type: application/json" \
-  -d '{"phoneNumber":"01012345678","channelId":1,"targetStatus":"BASIC"}'
+  -d '{"phoneNumber":"01012345678","channelId":1,"targetStatus":"BASIC"}' | npx json
 ```
 + BASIC -> NONE 해지
 ```bash
 curl -s -X POST http://localhost:3000/api/v1/subscriptions/unsubscribe \
   -H "Content-Type: application/json" \
-  -d '{"phoneNumber":"01012345678","channelId":1,"targetStatus":"NONE"}'
+  -d '{"phoneNumber":"01012345678","channelId":1,"targetStatus":"NONE"}' | npx json
 ```
 + 잘못된 해지 채널
 ```bash
 curl -s -X POST http://localhost:3000/api/v1/subscriptions/unsubscribe \
   -H "Content-Type: application/json" \
-  -d '{"phoneNumber":"01012345678","channelId":3,"targetStatus":"NONE"}'
+  -d '{"phoneNumber":"01012345678","channelId":3,"targetStatus":"NONE"}' | npx json
 ```
 + 잘못된 상태 변경 (subscribe로 NONE 요청)
 ```bash
 curl -s -X POST http://localhost:3000/api/v1/subscriptions/subscribe \
   -H "Content-Type: application/json" \
-  -d '{"phoneNumber":"01012345678","channelId":1,"targetStatus":"NONE"}'
+  -d '{"phoneNumber":"01012345678","channelId":1,"targetStatus":"NONE"}' | npx json
 ```
 </details>
 
